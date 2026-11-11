@@ -25,6 +25,7 @@
       --line: rgba(255,255,255,.11);
       --sidebar-width: 272px;
       --topbar-height: 82px;
+      --ticker-height: 38px;
       --radius: 22px;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     }
@@ -52,6 +53,16 @@
     .icon-button { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 13px; color: var(--orange-soft); background: rgba(255,255,255,.045); cursor: pointer; transition: .2s ease; }
     .icon-button:hover, .icon-button:focus-visible { background: rgba(255,155,66,.15); border-color: rgba(255,155,66,.55); outline: none; transform: translateY(-1px); }
     .menu-toggle { display: none; position: absolute; left: 17px; }
+    .news-marquee {
+      position: fixed; z-index: 29; top: var(--topbar-height); left: 0; right: 0; height: var(--ticker-height);
+      display: flex; align-items: center; overflow: hidden; border-bottom: 1px solid rgba(255,190,104,.22);
+      background: linear-gradient(90deg, rgba(130,68,24,.96), rgba(190,111,37,.96), rgba(130,68,24,.96));
+      color: #fff1d8; box-shadow: 0 6px 24px rgba(0,0,0,.18);
+    }
+    .news-marquee-track { display: inline-flex; align-items: center; gap: 60px; width: max-content; white-space: nowrap; padding-left: 100%; animation: newsScroll 42s linear infinite; font-size: .82rem; font-weight: 800; letter-spacing: .015em; }
+    .news-marquee:hover .news-marquee-track { animation-play-state: paused; }
+    .news-marquee-track span::before { content: "✦"; color: #ffe0a8; margin-right: 12px; }
+    @keyframes newsScroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
 
     /* Sidebar navigation */
     .sidebar {
@@ -84,7 +95,7 @@
     .sidebar-bottom b { color: var(--orange-soft); font-weight: 650; }
 
     /* Page viewport */
-    .main-area { position: fixed; top: var(--topbar-height); right: 0; bottom: 0; left: var(--sidebar-width); overflow: hidden; }
+    .main-area { position: fixed; top: calc(var(--topbar-height) + var(--ticker-height)); right: 0; bottom: 0; left: var(--sidebar-width); overflow: hidden; }
     .page { display: none; position: absolute; inset: 0; overflow-y: auto; overscroll-behavior: contain; padding: clamp(24px, 5vw, 58px); animation: pageIn .28s ease both; }
     .page.active { display: block; }
     @keyframes pageIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -147,7 +158,7 @@
       .social-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 560px) {
-      :root { --topbar-height: 66px; }
+      :root { --topbar-height: 66px; --ticker-height: 42px; }
       .site-title { font-size: 1.08rem; letter-spacing: .12em; }
       .topbar { padding: 0 57px; }
       .topbar-tools { right: 9px; }
@@ -160,7 +171,7 @@
       .track-type { grid-column: 2; }
       .contact-card { padding: 22px; }
     }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } .news-marquee-track { animation: none !important; padding-left: 12px; width: auto; white-space: normal; } }
 
     /* Requested typography: Roboto Bold everywhere except the centered serif masthead. */
     :root { font-family: "Roboto", Arial, sans-serif; }
@@ -267,6 +278,32 @@
     .live-video-placeholder p { max-width: 580px; margin: 10px 0 0; color: var(--muted); font-size: .9rem; line-height: 1.7; }
     @media (max-width: 650px) { .livestream-details { grid-template-columns: 1fr; } .live-video-placeholder { min-height: 210px; padding: 22px; } }
 
+    /* Crystal Neptune title image and two-location preview slideshow. */
+    .screenshot-frame img[data-asset-base] { object-fit: contain; padding: 10px; }
+    .city-preview { position: relative; overflow: hidden; aspect-ratio: 16/9; min-height: 150px; background: linear-gradient(145deg, rgba(119,112,214,.2), rgba(255,155,66,.12)); }
+    .city-slide { position: absolute; inset: 0; opacity: 0; transform: translateX(24px) scale(.99); transition: opacity .65s ease, transform .65s ease; pointer-events: none; }
+    .city-slide.active { opacity: 1; transform: translateX(0) scale(1); }
+    .city-slide img { width: 100%; height: 100%; display: block; object-fit: cover; }
+    .city-slide-label { position: absolute; left: 12px; bottom: 12px; padding: 7px 11px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; background: rgba(12,10,31,.78); color: white; font-size: .75rem; }
+    .city-preview-missing { position: absolute; inset: 0; display: grid; place-items: center; padding: 15px; color: #c7c1e1; text-align: center; font-size: .82rem; }
+    .screenshot-frame .missing-image { display: grid; place-items: center; position: absolute; inset: 0; padding: 15px; color: #c7c1e1; text-align: center; }
+    .game-title-badge { width: 58px; height: 58px; flex: 0 0 58px; display: grid; place-items: center; overflow: hidden; border-radius: 17px; border: 1px solid rgba(255,155,66,.38); background: rgba(255,255,255,.04); }
+    .game-title-badge img { width: 100%; height: 100%; object-fit: cover; }
+    .game-title-badge:has(img[hidden]) { display: none; }
+    .gameplay-video { position: relative; overflow: hidden; margin-top: 23px; border: 1px solid rgba(255,155,66,.28); border-radius: 20px; background: #080718; box-shadow: 0 18px 45px rgba(0,0,0,.26); }
+    .gameplay-video video { display: block; width: 100%; max-height: min(68vh, 620px); aspect-ratio: 16/9; object-fit: contain; background: #080718; }
+    .video-audio-toggle { position: absolute; right: 14px; bottom: 14px; min-height: 42px; padding: 0 14px; border: 1px solid rgba(255,255,255,.28); border-radius: 12px; background: rgba(15,13,35,.86); color: #fff; font: 800 .84rem "Roboto", Arial, sans-serif; cursor: pointer; backdrop-filter: blur(8px); }
+    .video-audio-toggle:hover { border-color: var(--orange); background: rgba(40,34,87,.92); }
+    .patch-countdown { margin-top: 22px; padding: clamp(20px,4vw,30px); border: 1px solid rgba(255,155,66,.27); border-radius: 20px; background: linear-gradient(140deg, rgba(44,38,99,.78), rgba(24,21,55,.9)); }
+    .timer-label { color: var(--orange-soft); text-transform: uppercase; letter-spacing: .12em; font-size: .72rem; }
+    .timer-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 10px; margin-top: 18px; }
+    .timer-unit { padding: 15px 9px; border-radius: 14px; border: 1px solid var(--line); background: rgba(255,255,255,.045); text-align: center; }
+    .timer-unit strong { display: block; font-size: clamp(1.45rem,4vw,2.25rem); color: #fff; font-weight: 900; font-variant-numeric: tabular-nums; }
+    .timer-unit span { display: block; margin-top: 5px; color: var(--muted); font-size: .68rem; text-transform: uppercase; letter-spacing: .09em; }
+    .timer-note { margin: 14px 0 0; color: var(--muted); font-size: .88rem; line-height: 1.7; }
+    .dplayer-event { margin-top: 18px; }
+    @media (max-width: 520px) { .timer-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } .game-title-badge { width: 48px; height: 48px; flex-basis: 48px; } }
+
   </style>
 </head>
 <body>
@@ -278,6 +315,12 @@
         <button class="icon-button" id="musicToggle" aria-label="Play background music" title="Play background music">♫</button>
       </div>
     </header>
+    <div class="news-marquee" role="region" aria-label="Website announcements">
+      <div class="news-marquee-track">
+        <span>The upcoming Pokémon Crystal Neptune livestream will be available on both YouTube and Jemuel Miesa's personal website on November 15, 2026 at 2:35 PM PHT. The schedule has moved—don't miss this Game Boy Advance developer stream! The D-Player livestream follows on November 16, 2026 at 1:35 PM PHT, featuring a randomized Dance Sequences selection.</span>
+        <span>The upcoming Pokémon Crystal Neptune livestream will be available on both YouTube and Jemuel Miesa's personal website on November 15, 2026 at 2:35 PM PHT. The schedule has moved—don't miss this Game Boy Advance developer stream! The D-Player livestream follows on November 16, 2026 at 1:35 PM PHT, featuring a randomized Dance Sequences selection.</span>
+      </div>
+    </div>
 
     <aside class="sidebar" id="sidebar" aria-label="Main navigation">
       <div class="profile-mini">
@@ -291,6 +334,10 @@
         <button class="nav-button" data-page="about"><span class="nav-icon">✦</span>About Jemuel Miesa</button>
         <button class="nav-button" data-page="crystalabout"><span class="nav-icon">✧</span>About Crystal Neptune</button>
         <button class="nav-button" data-page="crystaldownload"><span class="nav-icon">⇩</span>Crystal Neptune Download</button>
+        <button class="nav-button" id="patchNotesToggle" aria-expanded="false" aria-controls="patchNotesSubmenu"><span class="nav-icon">▤</span>Update Patch Notes <span class="chevron">⌄</span></button>
+        <div class="submenu" id="patchNotesSubmenu">
+          <button class="submenu-button" data-page="crystalpatchnotes">· Pokémon Crystal Neptune</button>
+        </div>
         <button class="nav-button" data-page="dplayer"><span class="nav-icon">◈</span>About D-Player</button>
         <button class="nav-button" data-page="social"><span class="nav-icon">◎</span>My Social Media's</button>
         <button class="nav-button" data-page="livestreams"><span class="nav-icon">◷</span>Scheduled Livestreams</button>
@@ -427,9 +474,21 @@
           <h3 class="section-title"><span class="small-icon">▧</span>Project Screenshots</h3>
           <p class="lead" style="font-size:.94rem">Screenshots from Pokémon Crystal Neptune will appear here when the image files are added to the <strong>screenshots</strong> folder.</p>
           <div class="screenshot-grid">
-            <article class="screenshot-card"><div class="screenshot-frame"><span>Place screenshot here<br>crystal-neptune-title-screen.jpg</span><img src="screenshots/crystal-neptune-title-screen.jpg" alt="Pokémon Crystal Neptune title screen" onload="this.previousElementSibling.style.display='none'" onerror="this.style.display='none'"></div><div class="screenshot-caption">Title Screen</div></article>
-            <article class="screenshot-card"><div class="screenshot-frame"><span>Place screenshot here<br>crystal-neptune-overworld.jpg</span><img src="screenshots/crystal-neptune-overworld.jpg" alt="Pokémon Crystal Neptune overworld" onload="this.previousElementSibling.style.display='none'" onerror="this.style.display='none'"></div><div class="screenshot-caption">Overworld</div></article>
-            <article class="screenshot-card"><div class="screenshot-frame"><span>Place screenshot here<br>crystal-neptune-gameplay.jpg</span><img src="screenshots/crystal-neptune-gameplay.jpg" alt="Pokémon Crystal Neptune gameplay" onload="this.previousElementSibling.style.display='none'" onerror="this.style.display='none'"></div><div class="screenshot-caption">Gameplay</div></article>
+            <article class="screenshot-card">
+              <div class="screenshot-frame">
+                <span class="missing-image">Add <strong>screen.gif</strong> beside index.html to show the Crystal Neptune title screen.</span>
+                <img src="screen.gif" alt="Pokémon Crystal Neptune title screen" onload="this.previousElementSibling.style.display='none'" onerror="this.style.display='none'">
+              </div>
+              <div class="screenshot-caption">Pokémon Crystal Neptune — Title Screen</div>
+            </article>
+            <article class="screenshot-card">
+              <div class="city-preview" id="cityPreview">
+                <div class="city-preview-missing" id="cityPreviewMissing">Add <strong>ss1.jpg or ss1.png</strong> and <strong>ss2.jpg or ss2.png</strong> beside index.html to enable the Violet City and Mahogany Town slideshow.</div>
+                <div class="city-slide active" data-city-slide="0"><img data-asset-base="ss1" alt="Violet City preview"><span class="city-slide-label">Violet City</span></div>
+                <div class="city-slide" data-city-slide="1"><img data-asset-base="ss2" alt="Mahogany Town preview"><span class="city-slide-label">Mahogany Town</span></div>
+              </div>
+              <div class="screenshot-caption">Violet City & Mahogany Town — Preview slideshow (5 seconds per image)</div>
+            </article>
           </div>
           <div class="divider"></div>
           <h3 class="section-title"><span class="small-icon">?</span>Q&amp;A About Crystal Neptune</h3>
@@ -440,6 +499,29 @@
           </div>
           <div class="project-note" style="margin-top:22px">Pokémon Crystal Neptune is a fan-made ROM-hacking project. You must provide your own original Pokémon Emerald base ROM; this website distributes only the patch file.</div>
           <div class="page-footer">Pokémon Crystal Neptune · Build 08.23 v1.4 · BPS Patch.</div>
+        </div>
+      </section>
+
+      <!-- CRYSTAL NEPTUNE PATCH NOTES -->
+      <section class="page" id="page-crystalpatchnotes" aria-labelledby="crystalPatchNotesTitle">
+        <div class="page-inner">
+          <span class="eyebrow">Development schedule & release notes</span>
+          <div class="heading-row"><div class="heading-icon">▤</div><h2 class="page-heading" id="crystalPatchNotesTitle">Pokémon Crystal Neptune <span class="accent">Patch Notes</span></h2></div>
+          <p class="lead">There are no new in-game updates to announce yet. This page shows the livestream schedule and the planned time for the next patch-note update, using Philippines Time (PHT, UTC+8).</p>
+          <div class="patch-countdown" aria-live="polite">
+            <span class="timer-label" id="patchTimerLabel">Countdown to the Crystal Neptune livestream</span>
+            <h3 class="section-title" id="patchTimerTitle" style="margin-top:12px">Livestream begins November 15, 2026 at 2:35 PM PHT</h3>
+            <div class="timer-grid" id="patchTimerGrid">
+              <div class="timer-unit"><strong id="timerDays">--</strong><span>Days</span></div>
+              <div class="timer-unit"><strong id="timerHours">--</strong><span>Hours</span></div>
+              <div class="timer-unit"><strong id="timerMinutes">--</strong><span>Minutes</span></div>
+              <div class="timer-unit"><strong id="timerSeconds">--</strong><span>Seconds</span></div>
+            </div>
+            <p class="timer-note" id="patchTimerNote">When the livestream countdown ends at 2:35 PM, this timer will switch to the upcoming Patch Note updates countdown for 7:20 PM on November 15, 2026.</p>
+          </div>
+          <div class="project-note" style="margin-top:20px"><strong>Current update status:</strong> No new game patch has been released. The currently available public demo remains Build 08.23 v1.4.</div>
+          <div class="action-row"><button class="action-button" data-go="crystaldownload">Open Download Page ↗</button><button class="action-button secondary" data-go="livestreams">Scheduled Livestreams</button></div>
+          <div class="page-footer">All countdowns on this page use November 2026 dates and Philippines Time (UTC+8).</div>
         </div>
       </section>
 
@@ -487,32 +569,42 @@
             <h3 class="section-title" style="margin-top:19px">Pokémon Crystal Neptune: The Comeback / Work Continuation! (DAY 1)</h3>
             <div class="livestream-details">
               <div><span class="detail-label">Date</span><strong>November 15, 2026 (Sunday)</strong></div>
-              <div><span class="detail-label">Starting time</span><strong>11:00 AM · Philippines Time (PHT)</strong></div>
+              <div><span class="detail-label">Starting time</span><strong>2:35 PM · Philippines Time (PHT)</strong></div>
               <div><span class="detail-label">Where to watch</span><strong>Jemuel Miesa's Website or YouTube Live</strong></div>
             </div>
             <p class="lead" style="font-size:.96rem;margin-top:18px">Watch the embedded stream here on the website, or join the YouTube livestream to experience the broadcast with live comments.</p>
             <div class="action-row"><a class="action-button" href="https://youtube.com/@master.red_mlbb" target="_blank" rel="noopener noreferrer">Visit YouTube Channel ↗</a></div>
           </div>
 
-          <div class="card countdown-card" style="margin-top:20px">
-            <span class="eyebrow">Countdown screen</span>
+          <div class="card countdown-card" id="liveCountdownCard" style="margin-top:20px">
+            <span class="eyebrow">Countdown screen · visible now</span>
             <h3 class="section-title" style="margin-top:12px">Pokémon Crystal Neptune: Live!</h3>
-            <p id="countdownWaiting" class="lead" style="font-size:.94rem">The countdown screen will appear on <strong>November 13, 2026 at 12:00 AM Philippines Time</strong>.</p>
-            <div id="countdownWidget" class="countdown-widget" hidden>
+            <p class="lead" style="font-size:.94rem">The TickCounter countdown is displayed now. It will be replaced by the livestream player when the scheduled time is reached: <strong>November 15, 2026 at 2:35 PM PHT</strong>.</p>
+            <div id="countdownWidget" class="countdown-widget">
               <a data-type="countdown" data-id="12310782" class="tickcounter" style="display:block;left:0;width:100%;height:0;position:relative;padding-bottom:25%;margin:0 auto" title="Pokémon Crystal Neptune: Live!" href="https://www.tickcounter.com/">Pokémon Crystal Neptune: Live!</a>
             </div>
           </div>
 
-          <div class="card live-embed-card" style="margin-top:18px">
+          <div class="card live-embed-card" id="liveEmbedCard" style="margin-top:18px" hidden>
             <span class="eyebrow">Website livestream player</span>
             <h3 class="section-title" style="margin-top:12px">Watch the livestream here</h3>
             <div id="liveVideoPlaceholder" class="live-video-placeholder">
               <div class="live-video-icon">▶</div>
-              <strong>YouTube Live embed link not available yet</strong>
-              <p>The embedded video link will be added when it is provided. Planned update time: <strong>November 15, 2026 at 11:20 PM Philippines Time (PHT)</strong>.</p>
+              <strong>YouTube Live embed link is still pending</strong>
+              <p>The countdown has reached the scheduled start time. The player area is ready, and the YouTube embed link can be inserted here when it is supplied.</p>
             </div>
-            <!-- Add the YouTube embed iframe here when the livestream URL is provided. -->
-            <p class="lead" style="font-size:.88rem;margin-top:14px">The scheduled livestream start time is 11:00 AM PHT. The embed-link update time above is shown exactly as announced.</p>
+            <!-- Insert the YouTube iframe here when the livestream URL is supplied. -->
+          </div>
+
+          <div class="card dplayer-event" style="margin-top:18px">
+            <span class="eyebrow">Next broadcast</span>
+            <h3 class="section-title" style="margin-top:12px">D-Player Livestream</h3>
+            <div class="livestream-details">
+              <div><span class="detail-label">Date</span><strong>November 16, 2026 (Monday)</strong></div>
+              <div><span class="detail-label">Starting time</span><strong>1:35 PM · Philippines Time (PHT)</strong></div>
+              <div><span class="detail-label">Feature</span><strong>Randomized Dance Sequences selection</strong></div>
+            </div>
+            <p class="timer-note">The D-Player broadcast is scheduled for the day after the Crystal Neptune developer stream.</p>
           </div>
           <div class="page-footer">Pokémon Crystal Neptune: The Comeback / Work Continuation! · DAY 1.</div>
         </div>
@@ -522,7 +614,7 @@
       <section class="page" id="page-zombiecatchers" aria-labelledby="zcTitle">
         <div class="page-inner">
           <span class="eyebrow">Gameplay videos</span>
-          <div class="heading-row"><div class="heading-icon">☣</div><h2 class="page-heading" id="zcTitle">Zombie Catchers <span class="accent">Gameplay</span></h2></div>
+          <div class="heading-row"><div class="game-title-badge"><img data-asset-base="zc" alt="Zombie Catchers icon"></div><h2 class="page-heading" id="zcTitle">Zombie Catchers <span class="accent">Gameplay</span></h2></div>
           <p class="lead">Watch Jemuel Miesa's Zombie Catchers gameplay uploads, featuring gameplay sessions and progress from the zombie-catching adventure.</p>
           <div class="gameplay-banner"><div><span class="eyebrow">From Jemuel's YouTube channel</span><h3 class="section-title" style="font-size:clamp(1.55rem,3vw,2.3rem);margin:12px 0 0">Catch. Collect. Upgrade.</h3><p style="color:var(--muted);margin:9px 0 0">New gameplay videos and channel updates are shared on YouTube.</p></div></div>
           <div class="action-row"><a class="action-button" href="https://youtube.com/@master.red_mlbb" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a><button class="action-button secondary" data-go="social">More Social Links</button></div>
@@ -534,9 +626,15 @@
       <section class="page" id="page-mobilelegends" aria-labelledby="mlTitle">
         <div class="page-inner">
           <span class="eyebrow">Gameplay videos</span>
-          <div class="heading-row"><div class="heading-icon">⚔</div><h2 class="page-heading" id="mlTitle">Mobile Legends: <span class="accent">Gameplay</span></h2></div>
+          <div class="heading-row"><div class="game-title-badge"><img data-asset-base="mlbb" alt="Mobile Legends icon"></div><h2 class="page-heading" id="mlTitle">Mobile Legends: <span class="accent">Gameplay</span></h2></div>
           <p class="lead">Explore Jemuel Miesa's Mobile Legends: Bang Bang gameplay videos, featuring matches, heroes, and in-game moments.</p>
           <div class="gameplay-banner"><div><span class="eyebrow">From Jemuel's YouTube channel</span><h3 class="section-title" style="font-size:clamp(1.55rem,3vw,2.3rem);margin:12px 0 0">Enter the battlefield.</h3><p style="color:var(--muted);margin:9px 0 0">Watch gameplay uploads and follow future video releases.</p></div></div>
+          <div class="gameplay-video">
+            <video id="battleVideo" autoplay playsinline loop preload="auto" aria-label="Featured gameplay video">
+              <source src="battle.mp4" type="video/mp4">
+            </video>
+            <button class="video-audio-toggle" id="battleAudioToggle" type="button" aria-label="Mute gameplay video">Mute audio</button>
+          </div>
           <div class="action-row"><a class="action-button" href="https://youtube.com/@master.red_mlbb" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a><button class="action-button secondary" data-go="social">More Social Links</button></div>
           <div class="page-footer">Gameplay videos are uploaded through Jemuel Miesa's YouTube channel.</div>
         </div>
@@ -546,7 +644,7 @@
       <section class="page" id="page-zombiets" aria-labelledby="ztTitle">
         <div class="page-inner">
           <span class="eyebrow">Gameplay videos</span>
-          <div class="heading-row"><div class="heading-icon">☄</div><h2 class="page-heading" id="ztTitle">Zombie Tsunami <span class="accent">Gameplay</span></h2></div>
+          <div class="heading-row"><div class="game-title-badge"><img data-asset-base="zt" alt="Zombie Tsunami icon"></div><h2 class="page-heading" id="ztTitle">Zombie Tsunami <span class="accent">Gameplay</span></h2></div>
           <p class="lead">Check out Jemuel Miesa's Zombie Tsunami gameplay uploads, with videos from the fast-paced zombie-running game.</p>
           <div class="gameplay-banner"><div><span class="eyebrow">From Jemuel's YouTube channel</span><h3 class="section-title" style="font-size:clamp(1.55rem,3vw,2.3rem);margin:12px 0 0">Build the zombie horde.</h3><p style="color:var(--muted);margin:9px 0 0">Visit the channel to explore available gameplay videos.</p></div></div>
           <div class="action-row"><a class="action-button" href="https://youtube.com/@master.red_mlbb" target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a><button class="action-button secondary" data-go="social">More Social Links</button></div>
@@ -575,32 +673,175 @@
       const menuToggle = document.getElementById('menuToggle');
       const gameplayToggle = document.getElementById('gameplayToggle');
       const gameplaySubmenu = document.getElementById('gameplaySubmenu');
+      const patchNotesToggle = document.getElementById('patchNotesToggle');
+      const patchNotesSubmenu = document.getElementById('patchNotesSubmenu');
       const pages = [...document.querySelectorAll('.page')];
       const navButtons = [...document.querySelectorAll('[data-page]')];
       const music = document.getElementById('backgroundMusic');
       const musicToggle = document.getElementById('musicToggle');
+      const liveStart = new Date('2026-11-15T14:35:00+08:00').getTime();
+      const patchNotesRelease = new Date('2026-11-15T19:20:00+08:00').getTime();
 
       document.getElementById('year').textContent = new Date().getFullYear();
 
-      // Reveal and load the TickCounter embed at 00:00 on November 13, 2026 (Asia/Manila).
-      const countdownStart = new Date('2026-11-13T00:00:00+08:00');
-      const countdownWaiting = document.getElementById('countdownWaiting');
+      // Load either JPG or PNG assets. For game icons, missing images are hidden with no icon fallback.
+      function resolveImageAsset(img, baseName, options = {}) {
+        const candidates = options.exact ? [baseName] : [`${baseName}.jpg`, `${baseName}.png`];
+        let index = 0;
+        const tryNext = () => {
+          if (index >= candidates.length) {
+            img.hidden = true;
+            if (options.onMissing) options.onMissing();
+            return;
+          }
+          img.hidden = false;
+          img.src = candidates[index++];
+        };
+        img.addEventListener('error', tryNext);
+        img.addEventListener('load', () => {
+          img.hidden = false;
+          if (options.onLoad) options.onLoad();
+        });
+        tryNext();
+      }
+
+      document.querySelectorAll('img[data-asset-base]').forEach(img => {
+        const base = img.dataset.assetBase;
+        resolveImageAsset(img, base, {
+          onMissing: () => {
+            const slide = img.closest('.city-slide');
+            if (slide) slide.dataset.missing = 'true';
+            const badge = img.closest('.game-title-badge');
+            if (badge) badge.hidden = true;
+            updateCityPreviewMissing();
+          },
+          onLoad: () => updateCityPreviewMissing()
+        });
+      });
+      function updateCityPreviewMissing() {
+        const missing = document.getElementById('cityPreviewMissing');
+        if (!missing) return;
+        const hasImage = [...document.querySelectorAll('.city-slide img')].some(img => img.complete && img.naturalWidth > 0);
+        missing.hidden = hasImage;
+      }
+
+      // The city preview changes images every five seconds with a sliding transition.
+      const citySlides = [...document.querySelectorAll('.city-slide')];
+      if (citySlides.length > 1) {
+        let cityIndex = 0;
+        window.setInterval(() => {
+          citySlides[cityIndex].classList.remove('active');
+          cityIndex = (cityIndex + 1) % citySlides.length;
+          citySlides[cityIndex].classList.add('active');
+        }, 5000);
+      }
+
+      // The TickCounter screen is visible immediately. At 2:35 PM PHT, swap it for the video/player area.
+      const countdownCard = document.getElementById('liveCountdownCard');
       const countdownWidget = document.getElementById('countdownWidget');
-      function enableCountdown() {
-        if (Date.now() < countdownStart.getTime()) return;
-        countdownWaiting.hidden = true;
-        countdownWidget.hidden = false;
-        if (!document.getElementById('tickcounter-sdk')) {
-          const script = document.createElement('script');
-          script.id = 'tickcounter-sdk';
-          script.src = 'https://www.tickcounter.com/static/js/loader.js';
-          script.async = true;
-          document.body.appendChild(script);
+      const liveEmbedCard = document.getElementById('liveEmbedCard');
+      function loadTickCounter() {
+        if (document.getElementById('tickcounter-sdk')) return;
+        const script = document.createElement('script');
+        script.id = 'tickcounter-sdk';
+        script.src = 'https://www.tickcounter.com/static/js/loader.js';
+        script.async = true;
+        document.body.appendChild(script);
+      }
+      function updateLiveCountdownState() {
+        if (Date.now() >= liveStart) {
+          countdownCard.hidden = true;
+          liveEmbedCard.hidden = false;
+        } else {
+          countdownCard.hidden = false;
+          liveEmbedCard.hidden = true;
+          loadTickCounter();
         }
       }
-      enableCountdown();
-      if (Date.now() < countdownStart.getTime()) {
-        window.setTimeout(enableCountdown, countdownStart.getTime() - Date.now() + 50);
+      updateLiveCountdownState();
+      window.setInterval(updateLiveCountdownState, 1000);
+
+      // Patch Notes page: livestream countdown, then 7:20 PM patch-note countdown.
+      const patchTimerLabel = document.getElementById('patchTimerLabel');
+      const patchTimerTitle = document.getElementById('patchTimerTitle');
+      const patchTimerNote = document.getElementById('patchTimerNote');
+      const patchTimerGrid = document.getElementById('patchTimerGrid');
+      const patchTimerValues = {
+        days: document.getElementById('timerDays'),
+        hours: document.getElementById('timerHours'),
+        minutes: document.getElementById('timerMinutes'),
+        seconds: document.getElementById('timerSeconds')
+      };
+      const pad2 = value => String(value).padStart(2, '0');
+      function renderPatchTimer() {
+        if (!patchTimerGrid) return;
+        const now = Date.now();
+        let target;
+        if (now < liveStart) {
+          target = liveStart;
+          patchTimerLabel.textContent = 'Countdown to the Crystal Neptune livestream';
+          patchTimerTitle.textContent = 'Livestream begins November 15, 2026 at 2:35 PM PHT';
+          patchTimerNote.textContent = 'When this countdown ends at 2:35 PM, the timer will switch to the upcoming Patch Note updates countdown for 7:20 PM on November 15, 2026.';
+        } else if (now < patchNotesRelease) {
+          target = patchNotesRelease;
+          patchTimerLabel.textContent = 'Upcoming Patch Note updates';
+          patchTimerTitle.textContent = 'Patch Note updates will be released at 7:20 PM PHT';
+          patchTimerNote.textContent = 'The livestream start time has passed. This countdown now shows the planned release time for the next Patch Note updates.';
+        } else {
+          patchTimerLabel.textContent = 'Patch Note update time reached';
+          patchTimerTitle.textContent = 'The scheduled Patch Note update time has arrived';
+          patchTimerNote.textContent = 'There are no new in-game updates announced on this page yet. Check the project page for the latest confirmed information.';
+          patchTimerGrid.hidden = true;
+          return;
+        }
+        patchTimerGrid.hidden = false;
+        const remaining = Math.max(0, target - now);
+        const days = Math.floor(remaining / 86400000);
+        const hours = Math.floor((remaining % 86400000) / 3600000);
+        const minutes = Math.floor((remaining % 3600000) / 60000);
+        const seconds = Math.floor((remaining % 60000) / 1000);
+        patchTimerValues.days.textContent = pad2(days);
+        patchTimerValues.hours.textContent = pad2(hours);
+        patchTimerValues.minutes.textContent = pad2(minutes);
+        patchTimerValues.seconds.textContent = pad2(seconds);
+      }
+      renderPatchTimer();
+      window.setInterval(renderPatchTimer, 1000);
+
+      // Featured MP4: attempt autoplay with sound first. If blocked by browser policy, retry muted.
+      const battleVideo = document.getElementById('battleVideo');
+      const battleAudioToggle = document.getElementById('battleAudioToggle');
+      async function startBattleVideo() {
+        if (!battleVideo) return;
+        try {
+          battleVideo.muted = false;
+          await battleVideo.play();
+        } catch (error) {
+          battleVideo.muted = true;
+          try { await battleVideo.play(); } catch (mutedError) {
+            console.warn('battle.mp4 could not autoplay. Check that the file is beside index.html.', mutedError);
+          }
+        }
+        updateAudioButton();
+      }
+      function updateAudioButton() {
+        if (!battleVideo || !battleAudioToggle) return;
+        battleAudioToggle.textContent = battleVideo.muted ? 'Unmute audio' : 'Mute audio';
+        battleAudioToggle.setAttribute('aria-label', battleVideo.muted ? 'Unmute gameplay video' : 'Mute gameplay video');
+      }
+      if (battleVideo) {
+        battleVideo.pause();
+        battleAudioToggle.addEventListener('click', async () => {
+          battleVideo.muted = !battleVideo.muted;
+          if (!battleVideo.paused) {
+            try { await battleVideo.play(); } catch (error) { console.warn('Video playback could not resume.', error); }
+          }
+          updateAudioButton();
+        });
+        battleVideo.addEventListener('error', () => {
+          battleAudioToggle.textContent = 'Video unavailable';
+          battleAudioToggle.disabled = true;
+        });
       }
 
       const patchDownloadButton = document.getElementById('patchDownloadButton');
@@ -641,12 +882,19 @@
         pages.forEach(page => page.classList.toggle('active', page === target));
         navButtons.forEach(button => button.classList.toggle('active', button.dataset.page === pageName));
         const isGameplay = ['zombiecatchers', 'mobilelegends', 'zombiets'].includes(pageName);
+        const isPatchNotes = pageName === 'crystalpatchnotes';
         gameplayToggle.classList.toggle('active', isGameplay);
         gameplaySubmenu.classList.toggle('open', isGameplay);
         gameplaySubmenu.dataset.userOpen = String(isGameplay);
         gameplayToggle.setAttribute('aria-expanded', String(isGameplay));
+        patchNotesToggle.classList.toggle('active', isPatchNotes);
+        patchNotesSubmenu.classList.toggle('open', isPatchNotes);
+        patchNotesSubmenu.dataset.userOpen = String(isPatchNotes);
+        patchNotesToggle.setAttribute('aria-expanded', String(isPatchNotes));
         target.scrollTop = 0;
         closeMobileNav();
+        if (pageName === 'mobilelegends') startBattleVideo();
+        else if (battleVideo) battleVideo.pause();
       }
       navButtons.forEach(button => button.addEventListener('click', () => showPage(button.dataset.page)));
       document.querySelectorAll('[data-go]').forEach(button => button.addEventListener('click', () => showPage(button.dataset.go)));
@@ -656,6 +904,12 @@
         gameplaySubmenu.classList.toggle('open', open);
         gameplaySubmenu.dataset.userOpen = String(open);
         gameplayToggle.setAttribute('aria-expanded', String(open));
+      });
+      patchNotesToggle.addEventListener('click', () => {
+        const open = !patchNotesSubmenu.classList.contains('open');
+        patchNotesSubmenu.classList.toggle('open', open);
+        patchNotesSubmenu.dataset.userOpen = String(open);
+        patchNotesToggle.setAttribute('aria-expanded', String(open));
       });
 
       musicToggle.addEventListener('click', async () => {
