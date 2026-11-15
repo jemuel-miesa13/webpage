@@ -271,8 +271,7 @@
       border: 1px solid rgba(255,155,66,.36); border-radius: 21px; background: #05040e;
       box-shadow: 0 20px 55px rgba(0,0,0,.34), 0 0 35px rgba(119,112,214,.12);
     }
-    #youtubeLivePlayer { position: absolute; inset: 0; width: 100%; height: 100%; }
-    #youtubeLivePlayer iframe { display: block; width: 100%; height: 100%; }
+    .live-player-shell iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
     .live-player-overlay {
       position: absolute; z-index: 2; inset: 0; display: flex; align-items: center; justify-content: center;
       padding: 22px; text-align: center; color: #fff;
@@ -344,8 +343,8 @@
     </header>
     <div class="news-marquee" role="region" aria-label="Website announcements">
       <div class="news-marquee-track">
-        <span>The upcoming Pokémon Crystal Neptune livestream will be available on both YouTube and Jemuel Miesa's personal website on November 15, 2026 at 2:35 PM PHT. The schedule has moved—don't miss this Game Boy Advance developer stream! The D-Player livestream follows on November 16, 2026 at 1:35 PM PHT, featuring a randomized Dance Sequences selection.</span>
-        <span>The upcoming Pokémon Crystal Neptune livestream will be available on both YouTube and Jemuel Miesa's personal website on November 15, 2026 at 2:35 PM PHT. The schedule has moved—don't miss this Game Boy Advance developer stream! The D-Player livestream follows on November 16, 2026 at 1:35 PM PHT, featuring a randomized Dance Sequences selection.</span>
+        <span>Pokémon Crystal Neptune: The Comeback / Work Continuation! is LIVE on November 15, 2026 at 1:30 PM PHT. Watch the Game Boy Advance developer stream here or on YouTube! The D-Player livestream follows on November 16, 2026 at 1:35 PM PHT, featuring a randomized Dance Sequences selection.</span>
+        <span>Pokémon Crystal Neptune: The Comeback / Work Continuation! is LIVE on November 15, 2026 at 1:30 PM PHT. Watch the Game Boy Advance developer stream here or on YouTube! The D-Player livestream follows on November 16, 2026 at 1:35 PM PHT, featuring a randomized Dance Sequences selection.</span>
       </div>
     </div>
 
@@ -537,14 +536,14 @@
           <p class="lead">There are no new in-game updates to announce yet. This page shows the livestream schedule and the planned time for the next patch-note update, using Philippines Time (PHT, UTC+8).</p>
           <div class="patch-countdown" aria-live="polite">
             <span class="timer-label" id="patchTimerLabel">Countdown to the Crystal Neptune livestream</span>
-            <h3 class="section-title" id="patchTimerTitle" style="margin-top:12px">Livestream begins November 15, 2026 at 2:35 PM PHT</h3>
+            <h3 class="section-title" id="patchTimerTitle" style="margin-top:12px">Livestream begins November 15, 2026 at 1:30 PM PHT</h3>
             <div class="timer-grid" id="patchTimerGrid">
               <div class="timer-unit"><strong id="timerDays">--</strong><span>Days</span></div>
               <div class="timer-unit"><strong id="timerHours">--</strong><span>Hours</span></div>
               <div class="timer-unit"><strong id="timerMinutes">--</strong><span>Minutes</span></div>
               <div class="timer-unit"><strong id="timerSeconds">--</strong><span>Seconds</span></div>
             </div>
-            <p class="timer-note" id="patchTimerNote">When the livestream countdown ends at 2:35 PM, this timer will switch to the upcoming Patch Note updates countdown for 7:20 PM on November 15, 2026.</p>
+            <p class="timer-note" id="patchTimerNote">When the livestream countdown ends at 1:30 PM, this timer will switch to the upcoming Patch Note updates countdown for 7:20 PM on November 15, 2026.</p>
           </div>
           <div class="project-note" style="margin-top:20px"><strong>Current update status:</strong> No new game patch has been released. The currently available public demo remains Build 08.23 v1.4.</div>
           <div class="action-row"><button class="action-button" data-go="crystaldownload">Open Download Page ↗</button><button class="action-button secondary" data-go="livestreams">Scheduled Livestreams</button></div>
@@ -590,38 +589,37 @@
         <div class="page-inner">
           <div class="live-player-area">
             <span class="eyebrow">YouTube Live · Crystal Neptune</span>
-            <div class="live-player-shell pre-live" id="livePlayerShell">
-              <div id="youtubeLivePlayer" aria-label="Pokémon Crystal Neptune YouTube livestream player"></div>
-              <div class="live-player-overlay" id="livePlayerOverlay" aria-live="polite">
-                <div class="live-player-overlay-inner">
-                  <div class="live-player-overlay-mark">▶</div>
-                  <strong id="livePlayerOverlayTitle">Livestream not started yet</strong>
-                  <p id="livePlayerOverlayMessage">The YouTube player is ready and will remain idle until the scheduled broadcast begins on November 15, 2026 at 2:35 PM PHT.</p>
-                </div>
-              </div>
+            <div class="live-player-shell" id="livePlayerShell">
+              <iframe
+                id="youtubeLiveFrame"
+                title="Pokémon Crystal Neptune — The Comeback / Work Continuation! livestream"
+                src="https://www.youtube.com/embed/jnHFUpe09K4?autoplay=1&amp;mute=1&amp;controls=1&amp;playsinline=1&amp;rel=0&amp;enablejsapi=1"
+                allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen></iframe>
             </div>
           </div>
 
           <div class="live-event-info">
             <span class="eyebrow">Scheduled broadcast information</span>
-            <div class="status-line" style="margin-top:12px"><span class="status-dot live-status-dot" id="liveStatusDot"></span><span id="liveStatusText">Upcoming livestream</span></div>
+            <div class="status-line" style="margin-top:12px"><span class="status-dot live-status-dot" id="liveStatusDot"></span><span id="liveStatusText">STARTING SOON</span></div>
             <h2 class="page-heading" id="livestreamTitle">Pokémon Crystal Neptune: <span class="accent">The Comeback / Work Continuation!</span> (DAY 1)</h2>
             <p class="lead">Join Jemuel Miesa for the continuation of the Pokémon Crystal Neptune development project. This broadcast will focus on returning to the project, continuing the work, and sharing the development process with viewers.</p>
 
             <div class="live-timer-panel" aria-live="polite">
-              <span class="timer-label" id="liveTimerLabel">Time until the livestream begins</span>
+              <span class="timer-label" id="liveTimerLabel">Livestream starts at 1:30 PM PHT</span>
               <div class="timer-grid" id="liveTimerGrid">
                 <div class="timer-unit"><strong id="liveDays">--</strong><span>Days</span></div>
                 <div class="timer-unit"><strong id="liveHours">--</strong><span>Hours</span></div>
                 <div class="timer-unit"><strong id="liveMinutes">--</strong><span>Minutes</span></div>
                 <div class="timer-unit"><strong id="liveSeconds">--</strong><span>Seconds</span></div>
               </div>
-              <p class="timer-note" id="liveTimerNote">Scheduled for Sunday, November 15, 2026 at 2:35 PM Philippines Time (PHT, UTC+8). The embedded YouTube player will stay idle until the broadcast is available.</p>
+              <p class="timer-note" id="liveTimerNote">The embedded YouTube player is ready and set to autoplay muted. The scheduled broadcast start is November 15, 2026 at 1:30 PM Philippines Time (PHT, UTC+8).</p>
             </div>
 
             <div class="livestream-details">
               <div><span class="detail-label">Date</span><strong>November 15, 2026 (Sunday)</strong></div>
-              <div><span class="detail-label">Starting time</span><strong>2:35 PM · Philippines Time (PHT)</strong></div>
+              <div><span class="detail-label">Starting time</span><strong>1:30 PM · Philippines Time (PHT)</strong></div>
               <div><span class="detail-label">Where to watch</span><strong>Embedded here and on YouTube Live</strong></div>
             </div>
             <div class="action-row">
@@ -713,7 +711,7 @@
       const navButtons = [...document.querySelectorAll('[data-page]')];
       const music = document.getElementById('backgroundMusic');
       const musicToggle = document.getElementById('musicToggle');
-      const liveStart = new Date('2026-11-15T14:35:00+08:00').getTime();
+      const liveStart = new Date('2026-11-15T13:30:00+08:00').getTime();
       const patchNotesRelease = new Date('2026-11-15T19:20:00+08:00').getTime();
 
       document.getElementById('year').textContent = new Date().getFullYear();
@@ -770,12 +768,8 @@
         }, 5000);
       }
 
-      // Embedded YouTube livestream: remain idle before the scheduled start, then
-      // begin muted playback once YouTube exposes active stream media.
-      const livePlayerShell = document.getElementById('livePlayerShell');
-      const livePlayerOverlay = document.getElementById('livePlayerOverlay');
-      const livePlayerOverlayTitle = document.getElementById('livePlayerOverlayTitle');
-      const livePlayerOverlayMessage = document.getElementById('livePlayerOverlayMessage');
+      // Livestream countdown and player status. The YouTube iframe is embedded
+      // directly above and handles the scheduled broadcast transition itself.
       const liveStatusText = document.getElementById('liveStatusText');
       const liveStatusDot = document.getElementById('liveStatusDot');
       const liveTimerLabel = document.getElementById('liveTimerLabel');
@@ -787,46 +781,22 @@
         minutes: document.getElementById('liveMinutes'),
         seconds: document.getElementById('liveSeconds')
       };
-      let youtubeLivePlayer = null;
-      let youtubePlayerReady = false;
-      let broadcastHasStarted = false;
-      let youtubePlayerError = false;
       const padLive = value => String(value).padStart(2, '0');
 
-      function setBroadcastStarted() {
-        if (broadcastHasStarted) return;
-        broadcastHasStarted = true;
-        livePlayerShell.classList.remove('pre-live');
-        livePlayerOverlay.hidden = true;
-        liveStatusText.textContent = 'LIVE NOW';
-        liveStatusDot.classList.add('is-live');
-        liveTimerLabel.textContent = 'Pokémon Crystal Neptune is live';
-        liveTimerGrid.hidden = true;
-        liveTimerNote.textContent = 'The broadcast is playing in the YouTube screen above. Use the YouTube player controls to adjust the volume or view it in fullscreen.';
-      }
-
       function renderLiveTimer() {
-        if (broadcastHasStarted) return;
-        if (youtubePlayerError) {
-          liveStatusText.textContent = 'YouTube player unavailable';
-          liveTimerLabel.textContent = 'Livestream player status';
-          liveTimerGrid.hidden = true;
-          liveTimerNote.textContent = 'The embedded player could not be loaded. Use the Open livestream on YouTube link above the schedule details to open the broadcast directly.';
-          return;
-        }
         const remaining = liveStart - Date.now();
         if (remaining <= 0) {
-          liveStatusText.textContent = 'Waiting for YouTube';
-          liveTimerLabel.textContent = 'Scheduled start time reached';
+          liveStatusText.textContent = 'BROADCAST TIME REACHED';
+          liveStatusDot.classList.add('is-live');
+          liveTimerLabel.textContent = 'The 1:30 PM livestream start time has arrived';
           liveTimerGrid.hidden = true;
-          liveTimerNote.textContent = 'The scheduled start time has arrived. The player will begin muted playback automatically as soon as YouTube makes the live stream available.';
-          livePlayerShell.classList.remove('pre-live');
-          livePlayerOverlayTitle.textContent = 'Waiting for the live broadcast';
-          livePlayerOverlayMessage.textContent = 'The scheduled time has arrived. YouTube has not made the live video available yet, so the player is waiting.';
+          liveTimerNote.textContent = 'The YouTube livestream is embedded above with muted autoplay enabled. Use the YouTube player controls to turn on sound or enter fullscreen.';
           return;
         }
-        liveStatusText.textContent = 'Upcoming livestream';
-        liveTimerLabel.textContent = 'Time until the livestream begins';
+
+        liveStatusText.textContent = 'STARTING SOON';
+        liveStatusDot.classList.remove('is-live');
+        liveTimerLabel.textContent = 'Time until the livestream starts · 1:30 PM PHT';
         liveTimerGrid.hidden = false;
         const days = Math.floor(remaining / 86400000);
         const hours = Math.floor((remaining % 86400000) / 3600000);
@@ -838,74 +808,8 @@
         liveTimerValues.seconds.textContent = padLive(seconds);
       }
 
-      function tryStartYoutubeLive() {
-        if (!youtubePlayerReady || broadcastHasStarted || Date.now() < liveStart || youtubePlayerError) return;
-        try {
-          // YouTube reports elapsed duration for an active live stream. A zero duration
-          // means the scheduled event has not exposed playable stream media yet.
-          const duration = youtubeLivePlayer.getDuration();
-          if (Number.isFinite(duration) && duration > 0) {
-            youtubeLivePlayer.mute(); // Muted autoplay is more reliable on mobile browsers.
-            youtubeLivePlayer.playVideo();
-          }
-        } catch (error) {
-          console.warn('Waiting for the YouTube livestream to become available.', error);
-        }
-      }
-
-      let youtubeApiLoading = false;
-      let youtubePlayerInitialized = false;
-      function createYoutubeLivePlayer() {
-        if (youtubePlayerInitialized || !window.YT || !window.YT.Player) return;
-        youtubePlayerInitialized = true;
-        youtubeLivePlayer = new YT.Player('youtubeLivePlayer', {
-          videoId: 'jnHFUpe09K4',
-          width: '100%',
-          height: '100%',
-          playerVars: {
-            autoplay: 0,
-            controls: 1,
-            enablejsapi: 1,
-            playsinline: 1,
-            rel: 0,
-            fs: 1
-          },
-          events: {
-            onReady: function () {
-              youtubePlayerReady = true;
-              renderLiveTimer();
-              tryStartYoutubeLive();
-            },
-            onStateChange: function (event) {
-              if (event.data === YT.PlayerState.PLAYING) setBroadcastStarted();
-            },
-            onError: function (event) {
-              youtubePlayerError = true;
-              renderLiveTimer();
-              console.warn('YouTube livestream player error:', event.data);
-            }
-          }
-        });
-      }
-
-      function initializeYoutubeLivePlayer() {
-        // The page is initially hidden, so create the iframe only after visitors open it.
-        if (youtubePlayerInitialized || youtubeApiLoading) return;
-        if (window.YT && window.YT.Player) {
-          createYoutubeLivePlayer();
-          return;
-        }
-        youtubeApiLoading = true;
-        window.onYouTubeIframeAPIReady = createYoutubeLivePlayer;
-        const youtubeApiScript = document.createElement('script');
-        youtubeApiScript.src = 'https://www.youtube.com/iframe_api';
-        youtubeApiScript.async = true;
-        document.head.appendChild(youtubeApiScript);
-      }
-
       renderLiveTimer();
       window.setInterval(renderLiveTimer, 1000);
-      window.setInterval(tryStartYoutubeLive, 10000);
 
       // Patch Notes page: livestream countdown, then 7:20 PM patch-note countdown.
       const patchTimerLabel = document.getElementById('patchTimerLabel');
@@ -926,8 +830,8 @@
         if (now < liveStart) {
           target = liveStart;
           patchTimerLabel.textContent = 'Countdown to the Crystal Neptune livestream';
-          patchTimerTitle.textContent = 'Livestream begins November 15, 2026 at 2:35 PM PHT';
-          patchTimerNote.textContent = 'When this countdown ends at 2:35 PM, the timer will switch to the upcoming Patch Note updates countdown for 7:20 PM on November 15, 2026.';
+          patchTimerTitle.textContent = 'Livestream begins November 15, 2026 at 1:30 PM PHT';
+          patchTimerNote.textContent = 'When this countdown ends at 1:30 PM, the timer will switch to the upcoming Patch Note updates countdown for 7:20 PM on November 15, 2026.';
         } else if (now < patchNotesRelease) {
           target = patchNotesRelease;
           patchTimerLabel.textContent = 'Upcoming Patch Note updates';
